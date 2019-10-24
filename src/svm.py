@@ -1,9 +1,5 @@
 import svmlight
 import bayes
-from nltk.stem import PorterStemmer
-
-stemming = False
-ps = PorterStemmer()
 
 def train(trainingPOS, trainingNEG, unigrams=True, bigrams=False, presence=False):
 
@@ -58,15 +54,13 @@ def getDocumentVector(wordList, wordMap, unigrams=True, bigrams=False, presence=
 
     # Create the word vector as a dictionary
     if (unigrams):
-        for word in wordList:
-            unigram = ps.stem(word) if stemming else word # Stem the word
+        for unigram in wordList:
             if not unigram in unigramMap: continue # If don't recognise word
             fid = unigramMap[unigram]
             if presence: wordCount[fid] = 1
             else:        wordCount[fid] = 1 if not (fid in wordCount) else wordCount[fid] + 1
     if (bigrams):
-        for (wordA, wordB) in zip(wordList[:-1], wordList[1:]):
-            bigram = (ps.stem(wordA), ps.stem(wordB)) if stemming else (wordA, wordB)
+        for bigram in zip(wordList[:-1], wordList[1:]):
             if not bigram in bigramMap: continue
             fid = bigramMap[bigram]
             if presence: wordCount[fid] = 1
@@ -83,27 +77,23 @@ def createWordMap(unigramMap, bigramMap, posData, negData):
     i = 1
     for file in posData:
         wordList = bayes.load_file(file)
-        for word in wordList:
-            unigram = ps.stem(word) if stemming else word # Stem the word
+        for unigram in wordList:
             # Create new entry if word hasn't been added yet
             if not (unigram in unigramMap):
                 unigramMap[unigram] = i
                 i+=1
-        for (wordA, wordB) in zip(wordList[:-1], wordList[1:]):
-            bigram = (ps.stem(wordA), ps.stem(wordB)) if stemming else (wordA, wordB)
+        for bigram in zip(wordList[:-1], wordList[1:]):
             # Create new entry if word hasn't been added yet
             if not (bigram in bigramMap):
                 bigramMap[bigram] = i
                 i+=1
     for file in negData:
         wordList = bayes.load_file(file)
-        for word in wordList:
-            unigram = ps.stem(word) if stemming else word
+        for unigram in wordList:
             if not (unigram in unigramMap):
                 unigramMap[unigram] = i
                 i+=1
-        for (wordA, wordB) in zip(wordList[:-1], wordList[1:]):
-            bigram = (ps.stem(wordA), ps.stem(wordB)) if stemming else (wordA, wordB)
+        for bigram in zip(wordList[:-1], wordList[1:]):
             # Create new entry if word hasn't been added yet
             if not (bigram in bigramMap):
                 bigramMap[bigram] = i

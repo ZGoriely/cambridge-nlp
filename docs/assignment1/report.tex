@@ -1,20 +1,85 @@
 \documentclass[12pt]{article}
-\usepackage{geometry} 
-\geometry{a4paper} 
+\usepackage[width=18cm, ignorehead]{geometry} 
 \usepackage{multicol}
+\usepackage{datetime}
+\usepackage{array}
+\usepackage{lipsum}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage[svgnames]{xcolor}
+\hypersetup{
+  colorlinks,
+  urlcolor=Blue}
+  
+\geometry{a4paper} 
+\thispagestyle{empty}
+\frenchspacing
 
-% See the ``Article customise'' template for come common customisations
-
-\title{}
-\author{}
-\date{} % delete this line to display the current date
+\title{\bf{SVM-based Sentiment Detection of Reviews (Assignment 1 Mini-report)}}
+\author{\Large{Z\'ebulon Goriely}}
 
 %%% BEGIN DOCUMENT
 \begin{document}
-\maketitle
-\begin{multicols}{2}[
-\section{}
-\subsection{}
-]
+\centerline{\large NLP Assignment 1 Mini-report}
+\vspace{0.2in}
+\centerline{\Large\bf SVM-based Sentiment Detection of Reviews}
+\vspace{0.2in}
+\centerline{\large {\bf{Z\'ebulon Goriely, Queens', zg258}}}
+\vspace{0.2in}
+\centerline{\large {\today}}
+
+\begin{multicols}{2}
+
+\section*{Introduction}
+\lipsum[1-2]
+\section*{Background}
+hehe
+\section*{Method}
+heh
+\section*{Results}
+
+\begin{table*}[t]
+\centering
+ \begin{tabular}{| c | c | c ||c|c|} 
+ \hline
+   & Features & frequency or presence? & NB & SVM\\ [0.5ex] 
+ \hline\hline
+ (1) & unigrams & freq. & 81.6 & 73.1\\ 
+ \hline
+ (2) & unigrams & pres. & 82.9 & 85.8\\
+ \hline
+ (3) & bigrams & pres. & 83.7 & 83.4 \\
+ \hline
+ (4) & unigrams+bigrams & pres. & 84.7 & 87.1 \\
+ \hline
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+ \begin{tabular}{|c|c||c|} 
+ \hline
+  System A & System B & p value\\ [0.5ex] 
+ \hline\hline
+NB,freq,unigrams & SVM,freq,unigrams & $7.59\times 10^{-7}$\\
+ \hline
+NB,freq,unigrams & NB,pres,unigrams & 0.53\\
+ \hline
+NB,freq,unigrams & NB,pres,bigrams & 0.32\\
+ \hline
+NB,freq,unigrams & NB,pres,unigrams+bigrams & 0.138 \\
+ \hline
+SVM,freq,unigrams & SVM,pres,unigrams & $2.97\times 10^{-9}$ \\
+ \hline
+SVM,freq,unigrams & SVM,pres,bigrams & $9.57\times 10^{-7}$ \\
+ \hline
+ SVM,freq,unigrams & SVM,pres,unigrams+bigrams & $6.24\times 10^{-7}$ \\
+ \hline
+\end{tabular}
+\end{table*}
+
+\section*{Conclusion}
+\lipsum[3-6]
+
 \end{multicols}
 \end{document}

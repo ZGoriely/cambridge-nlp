@@ -1,9 +1,5 @@
 import math
 import itertools
-from nltk.stem import PorterStemmer
-
-stemming = False
-ps = PorterStemmer()
 
 def calculateSmoothedLogProbs(trainingPOS, trainingNEG, unigrams=True, bigrams=False, presence=False):
 
@@ -61,8 +57,7 @@ def naiveBayes(testSet, tokenLogProbs, classProbabilities, unigrams=True, bigram
         unigramsSeen = []
         bigramsSeen = []
         if (unigrams):
-            for word in wordList:
-                unigram = ps.stem(word) if stemming else word
+            for unigram in wordList:
                 if presence:
                     if unigram in unigramsSeen: continue
                     unigramsSeen.append(unigram)
@@ -70,8 +65,7 @@ def naiveBayes(testSet, tokenLogProbs, classProbabilities, unigrams=True, bigram
                     posProbSum += tokenLogProbs[unigram]["POS"]
                     negProbSum += tokenLogProbs[unigram]["NEG"]
         if (bigrams):
-            for (wordA, wordB) in zip(wordList[:-1], wordList[1:]):
-                bigram = (ps.stem(wordA), ps.stem(wordB)) if stemming else (wordA, wordB)
+            for bigram in zip(wordList[:-1], wordList[1:]):
                 if presence:
                     if bigram in bigramsSeen: continue
                     bigramsSeen.append(bigram)
@@ -98,9 +92,8 @@ def addToDictionary(dictUni, dictBi, sentiment, trainingData):
         wordList = load_file(file)
 
         # Get unigrams
-        for word in wordList:
+        for unigram in wordList:
             # Create new entry if word hasn't been added yet
-            unigram = ps.stem(word) if stemming else word
             if not (unigram in dictUni):
                 wordCount = {"POS" : 1, "NEG" : 1}
                 dictUni[unigram] = wordCount
@@ -108,8 +101,7 @@ def addToDictionary(dictUni, dictBi, sentiment, trainingData):
             dictUni[unigram][sentiment] += 1
 
         # Get bigrams
-        for wordA, wordB in zip(wordList[:-1], wordList[1:]):
-            bigram = (ps.stem(wordA), ps.stem(wordB)) if stemming else (wordA, wordB)
+        for bigram in zip(wordList[:-1], wordList[1:]):
             if not (bigram in dictBi):
                 wordCount = {"POS" : 1, "NEG" : 1}
                 dictBi[bigram] = wordCount

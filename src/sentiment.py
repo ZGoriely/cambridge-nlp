@@ -2,14 +2,10 @@ import glob
 import bayes
 import math
 import svm
-import scipy
-from fractions import Fraction
-from decimal import Decimal
-from functools import reduce
-import operator
+import scipy.stats
 
-dataDirectoryPOS = "./data/POS/*"
-dataDirectoryNEG = "./data/NEG/*"
+dataDirectoryPOS = "./data/POSSTEM/*"
+dataDirectoryNEG = "./data/NEGSTEM/*"
 
 # Split the dataset into n folds using round robin
 def roundRobinSplit(n):
@@ -251,4 +247,4 @@ def svmPresenceUnigramsBigrams(trainingSetPOS, trainingSetNEG, testSetPOS, testS
 #print(crossValidateBayes(roundRobinSplit(3)))
 
 #compareTwoSystems(roundRobinSplit(10), bayesPresenceUnigrams, bayesPresenceBigrams, "Bayes P Unigrams", "Bayes P Bigrams")
-compareTwoSystems(roundRobinSplit(10), svmFrequencyUnigrams, svmPresenceUnigramsBigrams, "A", "B")
+compareTwoSystems(roundRobinSplit(10), svmFrequencyUnigrams, bayesFrequencyUnigrams, "bfu", "bpu")
