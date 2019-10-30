@@ -12,6 +12,9 @@ def calculateSmoothedLogProbs(trainingPOS, trainingNEG, unigrams=True, bigrams=F
     addToDictionary(totalUnigrams, totalBigrams, "POS", trainingPOS)
     addToDictionary(totalUnigrams, totalBigrams, "NEG", trainingNEG)
 
+    print("Number of unigram features: ", len(totalUnigrams))
+    print("Number of bigram features: ", len(totalBigrams))
+
     # STEP 2
     # For each sentiment, count the total number of words from all documents
     # of that sentiment.

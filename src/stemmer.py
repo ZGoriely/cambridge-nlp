@@ -24,4 +24,4 @@ def stemAllFiles():
     for file in negFiles:
         newName = "./data/NEGSTEM/"+file.split('_')[0].split('/')[-1]+".tag"
         stemFile(file,newName)
-stemAllFiles()    
+stemAllFiles()

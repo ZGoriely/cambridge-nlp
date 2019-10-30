@@ -22,6 +22,9 @@ def train(trainingPOS, trainingNEG, unigrams=True, bigrams=False, presence=False
 
     # Generate the model from the training data
     model = svmlight.learn(training_data, type='classification')
+    print("Number of unigram features: ", len(wordMap[0]))
+    print("Number of bigram features: ", len(wordMap[1]))
+
 
     return model, wordMap
 

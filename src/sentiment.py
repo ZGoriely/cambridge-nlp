@@ -4,8 +4,8 @@ import math
 import svm
 import scipy.stats
 
-dataDirectoryPOS = "./data/POSSTEM/*"
-dataDirectoryNEG = "./data/NEGSTEM/*"
+dataDirectoryPOS = "./data/POS/*"
+dataDirectoryNEG = "./data/NEG/*"
 
 # Split the dataset into n folds using round robin
 def roundRobinSplit(n):
@@ -246,5 +246,4 @@ def svmPresenceUnigramsBigrams(trainingSetPOS, trainingSetNEG, testSetPOS, testS
 
 #print(crossValidateBayes(roundRobinSplit(3)))
 
-#compareTwoSystems(roundRobinSplit(10), bayesPresenceUnigrams, bayesPresenceBigrams, "Bayes P Unigrams", "Bayes P Bigrams")
-compareTwoSystems(roundRobinSplit(10), svmFrequencyUnigrams, bayesFrequencyUnigrams, "bfu", "bpu")
+compareTwoSystems(roundRobinSplit(10), bayesPresenceUnigrams, bayesPresenceBigrams, "Bayes P Unigrams", "Bayes P Bigrams")

@@ -1,19 +1,20 @@
 \documentclass[12pt]{article}
-\usepackage[width=18cm, ignorehead]{geometry} 
+\usepackage[vmargin=25mm, hmargin=20mm]{geometry} 
 \usepackage{multicol}
 \usepackage{datetime}
 \usepackage{array}
 \usepackage{lipsum}
-\usepackage{url}
-\usepackage{hyperref}
-\usepackage[svgnames]{xcolor}
-\hypersetup{
-  colorlinks,
-  urlcolor=Blue}
+%\usepackage{url}
+%\usepackage{hyperref}
+%\usepackage[svgnames]{xcolor}
+%\hypersetup{
+ % colorlinks,
+ % urlcolor=Blue}
   
 \geometry{a4paper} 
-\thispagestyle{empty}
 \frenchspacing
+\parindent 0pt
+\parskip 6pt
 
 \title{\bf{SVM-based Sentiment Detection of Reviews (Assignment 1 Mini-report)}}
 \author{\Large{Z\'ebulon Goriely}}
@@ -27,32 +28,36 @@
 \centerline{\large {\bf{Z\'ebulon Goriely, Queens', zg258}}}
 \vspace{0.2in}
 \centerline{\large {\today}}
+\vspace{0.1in}
+\centerline{Word Count: 557\footnote{\emph{texcount docs/assignment1/report.tex}, using just the text in each section}}
+\vspace{0.2in}
 
+%%% BEGIN BODY OF TEXT
 \begin{multicols}{2}
 
-\section*{Introduction}
-\lipsum[1-2]
-\section*{Background}
-hehe
-\section*{Method}
-heh
-\section*{Results}
+\section{Introduction}
 
+In a 2002 paper\footnote{Bo Pang, Lillian Lee, and Shivakumar Vaithyanathan (2002). Thumbs up? Sentiment Classification using Machine Learning Techniques. Proceedings of EMNLP}, Pang et al. considered the problem of classifying reviews according to positive or negative sentiment. In this report, we reimplement two of the machine learning systems described in paper; the Naive Bayes (NB) classifier (with smoothing) and the Support Vector Machine (SVM) classifier.
+
+These methods are applied to a dataset of movie reviews which were given to us in the framework of a course in NLP.
+
+%%% DATA
 \begin{table*}[t]
 \centering
  \begin{tabular}{| c | c | c ||c|c|} 
  \hline
    & Features & frequency or presence? & NB & SVM\\ [0.5ex] 
  \hline\hline
- (1) & unigrams & freq. & 81.6 & 73.1\\ 
+ (1) & unigrams & freq. & \bf{81.6} & 73.1\\ 
  \hline
- (2) & unigrams & pres. & 82.9 & 85.8\\
+ (2) & unigrams & pres. & 82.9 & \bf{85.8}\\
  \hline
- (3) & bigrams & pres. & 83.7 & 83.4 \\
+ (3) & bigrams & pres. & \bf{83.7} & 83.4 \\
  \hline
- (4) & unigrams+bigrams & pres. & 84.7 & 87.1 \\
+ (4) & unigrams+bigrams & pres. & 84.7 & \bf{87.1} \\
  \hline
 \end{tabular}
+\caption{Average ten-fold cross-validation accuracies, in percent. Dataset: 2000 stemmed movie reviews. Boldface: best performance for a given setting (row).} \label{table:accuracies}
 \end{table*}
 
 \begin{table*}[t]
@@ -76,10 +81,60 @@ SVM,freq,unigrams & SVM,pres,bigrams & $9.57\times 10^{-7}$ \\
  SVM,freq,unigrams & SVM,pres,unigrams+bigrams & $6.24\times 10^{-7}$ \\
  \hline
 \end{tabular}
+\caption{The p-values from two-tailed sign-tests with a significance level of $k = 0.01$.} \label{table:p-values}
 \end{table*}
 
+\section{Background}
+
+Both NB and SVM use a bag-of-features framework to represent the documents. In this report we examine three of the seven features used in (Pang et al, 2002):
+\begin{itemize}
+	\item unigrams (single words such as ``enjoy''),
+	\item bigrams (pairs of words such as ``didn't hate''),
+	\item unigrams and bigrams.
+\end{itemize}
+
+Each document $d$ is then represented as a document vector $\vec{d} := (n_{1}(d), n_{2}(d),\ldots,n_{m}(d))$ where $n_{i}(d)$ is the number of times $f_{i}$ appears in document $d$.
+
+\subsection{Naive Bayes}
+
+The first classifier derived in the paper is referred to as the \emph{Naive Bayes} (NB) classifier. A given document $d$ is assigned to the class $c^{*} = \arg \max_{c}P(c | d)$. By decomposing Bayes' rule:
+\[P_\mathrm{NB}(c | d) := \frac{P(c)(\prod^{m}_{i=1}P(f_{i} | c)^{n_{i}(d)})}{P(d)} \]
+It is `Naive' because we assume that the features $f_{i}$ are conditionally independent in order to calculate $P(d|c)$ needed to apply Bayes' rule.
+
+As in the paper, we use relative-frequency estimation using add-one smoothing for the training of our NB classifier.
+
+\subsection{Support Vector Machine}
+
+The third classifier derived in the paper is the \emph{Support Vector Machine} classifier. Letting $c_{j} \in {1, -1}$ (corresponding to positive and negative) be the correct class of document $d_{j}$, the procedure finds the hyperplane represented by vector $\vec{w}$ which separates document vectors into the two classes as widely as possible.
+
+Once trained, classification proceeds simply by determining which side of the hyperplane the $d_{i}$ falls on for each test instance. As in the paper, we use Joachim's (1999) $SVM^{light}$ package \footnote{http://svmlight.joachims.org}, using default parameters.
+
+\subsection{Feature frequency against feature presence}
+
+During evaluation of these two systems, Pang et al. also experimented with binarising the document vectors, setting $n_{i}(d)$ to 1 iff feature $f_{i}$ appears in $d$ and running NB and $SVM^{light}$ on these new vectors\footnote{Note: Pang et al. used arbitrary language here, it may be worth referring to the Multinomial Naive Bayes and the Bernoulli Naive Bayes which are related to this notion of feature frequency and presence.}. We have also reproduced this as shown in Table \ref{table:accuracies}.
+
+\section{Method}
+
+We reimplemented NB and SVM using Python. Before running these classifiers, we used an implementation of the Porter Stemming Algorithm\footnote{The Stemmer used was the PorterStemmer from the nltk.tokenize package.} to stem all of the movie review files.
+
+When training the models on 90\% of the data, we get 33000 unigram features and 383000 bigram features\footnote{These values are rounded to the nearest 1000 as they vary between folds}. For the sake of not interfering with the algorithm as much as possible, we have not cut off any of the bigrams.
+
+\section{Results}
+
+We ran 8 different classifiers as detailed in Table \ref{table:accuracies}, using different combinations of features and using frequency or presence-based document vectors. For each classifier, we calculated the accuracy using ten-fold cross validation\footnote{The folds were chosen using a deterministic round-robin algorithm.}.
+
+Both of these machine learning algorithms perform significantly\footnote{The test for significance was a two-tailed sign-test with a significance level of $k=0.01.$} better than the random-choice baseline of 50\%.
+
+As can be seen by line (1) of Table \ref{table:accuracies}, NB performs significantly better than $SVM^{light}$ when trained on unigrams with frequency-based document vectors with an average accuracy of 81.6\% compared
+to 73.1\% using $SVM^{light}$.
+
+As can be seen by lines (2), (3) and (4) of Table \ref{table:accuracies}, much better performance is achieved for SVMs by accounting only for feature presence, not feature frequency, giving average accuracies of 85.8\%, 83.4\% and 87.1\% respectively compared to the 73.1\% (feature frequency).
+
+The best result achieved by all settings was the 87.1\% when running $SVM^{light}$ on presence-based document vectors composed of unigrams and bigrams.
+
 \section*{Conclusion}
-\lipsum[3-6]
+
+Through this report we have confirmed the findings of (Pang et al, 2002) to find that the machine learning methods perform better than random-choice, that Naive Bayes performs better than SVMs when using frequency-based unigram features and that significant gains in performances can be had for SVMs when switching to a presence-based document vector with more features to choose from.
 
 \end{multicols}
 \end{document}
