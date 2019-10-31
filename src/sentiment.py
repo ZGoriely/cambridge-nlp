@@ -246,4 +246,4 @@ def svmPresenceUnigramsBigrams(trainingSetPOS, trainingSetNEG, testSetPOS, testS
 
 #print(crossValidateBayes(roundRobinSplit(3)))
 
-compareTwoSystems(roundRobinSplit(10), bayesPresenceUnigrams, bayesPresenceBigrams, "Bayes P Unigrams", "Bayes P Bigrams")
+compareTwoSystems(roundRobinSplit(10), svmPresenceUnigrams, svmPresenceBigrams, "SVM P Unigrams", "SVM P Bigrams")
