@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[vmargin=25mm, hmargin=20mm]{geometry} 
+\usepackage[vmargin=20mm, hmargin=15mm]{geometry} 
 \usepackage{multicol}
 \usepackage{datetime}
 \usepackage{array}
@@ -120,7 +120,7 @@ During evaluation of these two systems, Pang et al. also experimented with binar
 
 \section{Method}
 
-We reimplemented both systems using Python. Before running these classifiers, we used an implementation of the Porter Stemming Algorithm\footnote{The Stemmer used was the PorterStemmer from the nltk.tokenize package.} on the dataset.
+We reimplemented both systems using Python\footnote{Our implementation can be accessed online at https://github.com/ZGoriely/cambridge-nlp}. Before running these classifiers, we used an implementation of the Porter Stemming Algorithm\footnote{The Stemmer used was the PorterStemmer from the nltk.tokenize package.} on the dataset.
 
 When training the models on 90\% of the data, we get 33000 unigram features and 383000 bigram features\footnote{These values are rounded to the nearest 1000 as they vary between folds}. For the sake of simplicity, we have not cut out any features.
 
