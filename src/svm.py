@@ -1,5 +1,7 @@
 import svmlight
 import bayes
+import doc
+import pprint
 
 def train(trainingPOS, trainingNEG, unigrams=True, bigrams=False, presence=False):
 
@@ -22,11 +24,24 @@ def train(trainingPOS, trainingNEG, unigrams=True, bigrams=False, presence=False
 
     # Generate the model from the training data
     model = svmlight.learn(training_data, type='classification')
-    print("Number of unigram features: ", len(wordMap[0]))
-    print("Number of bigram features: ", len(wordMap[1]))
-
 
     return model, wordMap
+
+def trainDoc2Vec(trainingPOS, trainingNEG, docModel):
+    """ Create training data using the doc2Vec model to generate document vectors """
+
+    training_data = []
+    for file in trainingPOS:
+        wordList = bayes.load_file(file)
+        docVec = convertDoc2VecToSVMVec(docModel.infer_vector(wordList))
+        training_data.append((1, docVec))
+    for file in trainingNEG:
+        wordList = bayes.load_file(file)
+        docVec = convertDoc2VecToSVMVec(docModel.infer_vector(wordList))
+        training_data.append((-1, docVec))
+
+    model = svmlight.learn(training_data, type='classification')
+    return model
 
 def predict(model, testSet, wordMap, unigrams=True, bigrams=False, presence=False):
 
@@ -43,6 +58,26 @@ def predict(model, testSet, wordMap, unigrams=True, bigrams=False, presence=Fals
     predictions = svmlight.classify(model, test_data)
 
     # Return predictions in the same format as the bayes
+    for i in range(len(predictions)):
+        results[testSet[i]] = "POS" if predictions[i] > 0 else "NEG"
+
+    return results
+
+def predictDoc2Vec(model, testSet, docModel):
+    """ Predict sentiment using doc2Vec model to generate document vectors """
+
+    results = {}
+
+    test_data = []
+    for file in testSet:
+        wordList = bayes.load_file(file)
+        docVec = convertDoc2VecToSVMVec(docModel.infer_vector(wordList))
+        test_data.append((0, docVec))
+
+    # Get predictions
+    predictions = svmlight.classify(model, test_data)
+
+    # Return predictions
     for i in range(len(predictions)):
         results[testSet[i]] = "POS" if predictions[i] > 0 else "NEG"
 
@@ -74,6 +109,13 @@ def getDocumentVector(wordList, wordMap, unigrams=True, bigrams=False, presence=
         docVec.append((wordID, count))
     list.sort(docVec)
     return docVec
+
+# Turn doc2Vec document vectors into svm vectors of feature-value pairs
+def convertDoc2VecToSVMVec(vector):
+    newVec = []
+    for i in range(len(vector)):
+        newVec.append((i+1, vector[i]))
+    return newVec
 
 def createWordMap(unigramMap, bigramMap, posData, negData):
     # Loop through all data to create a map from words to feature IDs

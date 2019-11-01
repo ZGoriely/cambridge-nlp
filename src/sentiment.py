@@ -3,6 +3,8 @@ import bayes
 import math
 import svm
 import scipy.stats
+import doc
+import gensim
 
 dataDirectoryPOS = "./data/POS/*"
 dataDirectoryNEG = "./data/NEG/*"
@@ -180,7 +182,7 @@ def compareTwoSystems(folds, systemA, systemB, systemAName, systemBName):
     print("p value:", p)
 
 # ======================================================== #
-# ------------------ Possible Experiments ---------------- #
+# ------------------ Task 1 Experiments ------------------ #
 # ======================================================== #
 
 # Bayes with Frequency and Unigrams
@@ -244,6 +246,51 @@ def svmPresenceUnigramsBigrams(trainingSetPOS, trainingSetNEG, testSetPOS, testS
     prediction.update(svm.predict(model, testSetNEG, wordMap, bigrams=True, presence=True))
     return prediction
 
+# ======================================================== #
+# ------------------ Task 2 Experiments ------------------ #
+# ======================================================== #
+
+def doc2VecExperiment(trainingSetPOS, trainingSetNEG, testSetPOS, testSetNEG):
+    prediction = {}
+    docModel = gensim.models.Doc2Vec.load("./tmp/doc.model")
+    model = svm.trainDoc2Vec(trainingSetPOS, trainingSetNEG, docModel)
+    prediction = svm.predictDoc2Vec(model, testSetPOS, docModel)
+    prediction.update(svm.predictDoc2Vec(model, testSetNEG, docModel))
+    return prediction
+
+def tuneParameters():
+    ''' Experiment with different doc2Vec models by testing on the first fold and
+    training on the rest'''
+
+    folds = roundRobinSplit(10)
+
+    predictions = {}
+
+    # Validation fold
+    validationFoldPOS = folds[0]["POS"]
+    validationFoldNEG = folds[0]["NEG"]
+
+    # Get training sets
+    trainingSetPOS = []
+    trainingSetNEG = []
+    for i in range(1, 10):
+        trainingSetPOS.extend(folds[i]["POS"])
+        trainingSetNEG.extend(folds[i]["NEG"])
+    
+    predictions = doc2VecExperiment(trainingSetPOS, trainingSetNEG, validationFoldPOS, validationFoldNEG)
+
+    # Generate true sentiments for test set
+    trueSentiments = {}
+    for file in validationFoldPOS: trueSentiments[file] = "POS"
+    for file in validationFoldNEG: trueSentiments[file] = "NEG"
+
+    accuracy = calculateAccuracy(trueSentiments, predictions)
+
+    print(accuracy)
+
+tuneParameters()
+
 #print(crossValidateBayes(roundRobinSplit(3)))
 
-compareTwoSystems(roundRobinSplit(10), svmPresenceUnigrams, svmPresenceBigrams, "SVM P Unigrams", "SVM P Bigrams")
+#compareTwoSystems(roundRobinSplit(10), svmPresenceUnigrams, doc2VecExperiment, "SVM P Unigrams", "Doc2Vec")
+
