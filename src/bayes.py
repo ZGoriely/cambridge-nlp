@@ -87,8 +87,8 @@ def naiveBayes(testSet, tokenLogProbs, classProbabilities, unigrams=True, bigram
 
 def load_file(path):
     with open(path,'r') as f:
-        data = list(map(lambda word: word.replace('\n',''), f.readlines()))
-        #data = gensim.utils.simple_preprocess(f.read())
+        #data = list(map(lambda word: word.replace('\n',''), f.readlines()))
+        data = gensim.utils.simple_preprocess(f.read())
     return data
 
 def addToDictionary(dictUni, dictBi, sentiment, trainingData):

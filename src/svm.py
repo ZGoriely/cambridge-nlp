@@ -44,7 +44,6 @@ def trainDoc2Vec(trainingPOS, trainingNEG, docModel):
     return model
 
 def predict(model, testSet, wordMap, unigrams=True, bigrams=False, presence=False):
-
     results = {}
 
     # Put test set into correct format

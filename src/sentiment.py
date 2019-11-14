@@ -5,17 +5,22 @@ import svm
 import scipy.stats
 import doc
 import gensim
+import random
 
 dataDirectoryPOS = "./data/POS/*"
 dataDirectoryNEG = "./data/NEG/*"
 
 # Split the dataset into n folds using round robin
-def roundRobinSplit(n):
+def roundRobinSplit(n, remove_first_tenth=False):
 
     posFiles = glob.glob(dataDirectoryPOS)
     negFiles = glob.glob(dataDirectoryNEG)
     list.sort(posFiles)
     list.sort(negFiles)
+
+    if remove_first_tenth:
+        posFiles = posFiles[100:]
+        negFiles = negFiles[100:]
 
     folds = []
     for i in range(n):
@@ -127,8 +132,90 @@ def signTest(trueSentiments, predictionsA, predictionsB):
 
     return p
 
+def permutationTest (trueSentiments, predictionsA, predictionsB, R):
+    
+    s = 0
+
+    # Get the original difference between the means of the two systems
+    original_mean_difference = abs(calculateAccuracy(trueSentiments, predictionsA) - calculateAccuracy(trueSentiments, predictionsB))
+
+    # Do R sets of permutations
+    for _ in range(R):
+        newPredictionsA = dict(predictionsA)
+        newPredictionsB = dict(predictionsB)
+
+        # Randomly permute the two using a coin toss
+        for i in newPredictionsA:
+            swap = True if random.randint(0,1) == 1 else False
+            if swap:
+                temp = newPredictionsA[i]
+                newPredictionsA[i] = newPredictionsB[i]
+                newPredictionsB[i] = temp
+
+        # Calculate new accuracy
+        new_mean_difference = abs(calculateAccuracy(trueSentiments, newPredictionsA) -  calculateAccuracy(trueSentiments, newPredictionsB))
+        if (new_mean_difference >= original_mean_difference):
+            s+=1
+        
+    # Calculate p value
+    p = (s+1)/(R+1)
+    return p
+
+
 # Gives the accuracies for each system for each fold, the average accuracies
 # and the p value of the two systems
+def compareTwoSystemsWithPermutation(folds, systemA, systemB, systemAName, systemBName):
+
+    numFolds = len(folds)
+    scoresA = []
+    scoresB = []
+    allTrueSentiments= {}
+    allPredictionsA = {}
+    allPredictionsB = {}
+
+    for i in range(numFolds):
+        # Get test and training sets
+        testSetPOS = folds[i]["POS"]
+        testSetNEG = folds[i]["NEG"]
+        trainingSetPOS = []
+        trainingSetNEG = []
+        for j in range(numFolds):
+            if (i != j):
+                trainingSetPOS.extend(folds[j]["POS"])
+                trainingSetNEG.extend(folds[j]["NEG"])
+
+        # Generate true sentiments for test set
+        trueSentiments = {}
+        for file in testSetPOS: trueSentiments[file] = "POS"
+        for file in testSetNEG: trueSentiments[file] = "NEG"
+
+        # Get predictions from both systems
+        predictionA = systemA(trainingSetPOS, trainingSetNEG, testSetPOS, testSetNEG)
+        predictionB = systemB(trainingSetPOS, trainingSetNEG, testSetPOS, testSetNEG)
+        
+        # Add predictions for sign test
+        allTrueSentiments.update(trueSentiments)
+        allPredictionsA.update(predictionA)
+        allPredictionsB.update(predictionB)
+
+        # Get accuracies for this fold
+        accA = calculateAccuracy(trueSentiments, predictionA)
+        accB = calculateAccuracy(trueSentiments, predictionB)
+        scoresA.append(accA)
+        scoresB.append(accB)
+
+        print("=========FOLD ", i,"========", sep="")
+        print("Accuracy of ", systemAName, ": ", accA, sep="")
+        print("Accuracy of ", systemBName, ": ", accB, sep="")
+        print()
+
+    p = permutationTest(allTrueSentiments, allPredictionsA, allPredictionsB, 5000)
+
+    print("=========AVERAGES=========")
+    print("Average", systemAName, "Accuracy:", sum(scoresA)/numFolds)
+    print("Average", systemBName, "Accuracy:", sum(scoresB)/numFolds)
+    print("p value:", p)
+
 def compareTwoSystems(folds, systemA, systemB, systemAName, systemBName):
 
     numFolds = len(folds)
@@ -170,6 +257,7 @@ def compareTwoSystems(folds, systemA, systemB, systemAName, systemBName):
         scoresB.append(accB)
 
         print("=========FOLD ", i,"========", sep="")
+        print("Size of fold: ", len(testSetPOS))
         print("Accuracy of ", systemAName, ": ", accA, sep="")
         print("Accuracy of ", systemBName, ": ", accB, sep="")
         print()
@@ -250,17 +338,22 @@ def svmPresenceUnigramsBigrams(trainingSetPOS, trainingSetNEG, testSetPOS, testS
 # ------------------ Task 2 Experiments ------------------ #
 # ======================================================== #
 
-def doc2VecExperiment(trainingSetPOS, trainingSetNEG, testSetPOS, testSetNEG):
+def doc2VecExperiment(trainingSetPOS, trainingSetNEG, testSetPOS, testSetNEG, parameter=0):
     prediction = {}
-    docModel = gensim.models.Doc2Vec.load("./tmp/doc.model")
+    docModel = gensim.models.Doc2Vec.load("./tmp/doc89.model")
+    #docModel = doc.createDocModel(parameter)
     model = svm.trainDoc2Vec(trainingSetPOS, trainingSetNEG, docModel)
     prediction = svm.predictDoc2Vec(model, testSetPOS, docModel)
     prediction.update(svm.predictDoc2Vec(model, testSetNEG, docModel))
+    del model
+    del docModel
     return prediction
 
 def tuneParameters():
     ''' Experiment with different doc2Vec models by testing on the first fold and
     training on the rest'''
+
+    parameters_to_test = [6, 8, 10, 12]
 
     folds = roundRobinSplit(10)
 
@@ -276,21 +369,24 @@ def tuneParameters():
     for i in range(1, 10):
         trainingSetPOS.extend(folds[i]["POS"])
         trainingSetNEG.extend(folds[i]["NEG"])
-    
-    predictions = doc2VecExperiment(trainingSetPOS, trainingSetNEG, validationFoldPOS, validationFoldNEG)
 
     # Generate true sentiments for test set
     trueSentiments = {}
     for file in validationFoldPOS: trueSentiments[file] = "POS"
     for file in validationFoldNEG: trueSentiments[file] = "NEG"
+        
+    # Do doc2vec experiment for each parameter   
+    for parameter in parameters_to_test: 
 
-    accuracy = calculateAccuracy(trueSentiments, predictions)
+        predictions = doc2VecExperiment(trainingSetPOS, trainingSetNEG, validationFoldPOS, validationFoldNEG, parameter)
 
-    print(accuracy)
+        accuracy = calculateAccuracy(trueSentiments, predictions)
 
-tuneParameters()
+        print("Accuracy: ", accuracy)
+
+#tuneParameters()
 
 #print(crossValidateBayes(roundRobinSplit(3)))
 
 #compareTwoSystems(roundRobinSplit(10), svmPresenceUnigrams, doc2VecExperiment, "SVM P Unigrams", "Doc2Vec")
-
+compareTwoSystemsWithPermutation(roundRobinSplit(10, True), svmFrequencyUnigrams, doc2VecExperiment, "SVM P UniBi", "Doc2Vec")
