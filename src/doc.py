@@ -24,13 +24,16 @@ def read_corpus(dataSet, tokens_only=False):
                 # For training data, add tags
                 yield gensim.models.doc2vec.TaggedDocument(tokens, [i])
 
-trainFiles = glob.glob(posTrainFiles)
-trainFiles.extend(glob.glob(negTrainFiles))
-trainFiles.extend(glob.glob(posTestFiles))
-trainFiles.extend(glob.glob(negTestFiles))
-trainFiles.extend(glob.glob(usupTrainFiles))
-#trainFiles.sort()
-train_corpus = list(read_corpus(trainFiles))
+train_corpus = None
+
+def prepareFiles():
+    trainFiles = glob.glob(posTrainFiles)
+    trainFiles.extend(glob.glob(negTrainFiles))
+    trainFiles.extend(glob.glob(posTestFiles))
+    trainFiles.extend(glob.glob(negTestFiles))
+    trainFiles.extend(glob.glob(usupTrainFiles))
+    #trainFiles.sort()
+    train_corpus = list(read_corpus(trainFiles))
 
 def createDocModel(parameter):
     # Genreate training corpus
@@ -43,6 +46,12 @@ def createDocModel(parameter):
 
     # Create the doc2vec model
     # Best so far, 87%: model = gensim.models.doc2vec.Doc2Vec(dm=0, vector_size=110, min_count=2, epochs=6, workers=8, hs=0, window=6)
+    #my_dm = 0
+    #my_vector_size = 125
+    #my_min_count = 20
+    #my_epochs = 5
+    #my_hs = 1
+    #my_window = 6
     my_dm = 0
     my_vector_size = 125
     my_min_count = 20
