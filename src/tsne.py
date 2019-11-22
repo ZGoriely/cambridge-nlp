@@ -60,7 +60,7 @@ def documents_to_vector_dataset():
     posFiles.sort()
     negFiles.sort()
 
-    docModel = gensim.models.Doc2Vec.load("./tmp/doc87.model")
+    docModel = gensim.models.Doc2Vec.load("./tmp/doc82.model")
 
     posVecs = []
     posTargets = []
@@ -210,11 +210,15 @@ def tnse_manual():
     n = 40
     docnum = 0
 
-    wordList = "characters were very convincing and felt like you could understand their feelings very enjoyable movie".split(" ")
+    goodWords = "good interesting amazing fantastic great better".split(" ")
+    badWords = "bad boring terrible awful worst worse".split(" ")
+    averageWords = "mediocre average fine".split(" ")
 
-    docModel = gensim.models.Doc2Vec.load("./tmp/doc87.model")
+    wordList = goodWords+badWords+averageWords
 
-    vec = docModel.infer_vector(wordList)
+    docModel = gensim.models.Doc2Vec.load("./tmp/doc89.model")
+
+    #vec = docModel.infer_vector(wordList)
 
     wordVecs = []
     words = []
@@ -224,15 +228,21 @@ def tnse_manual():
         tag = tags[nltk.pos_tag([word])[0][1]]
         if (word not in words):
             words.append(word)
-            wordTypes.append(tag)
+            if word in goodWords:
+                wordTypes.append(0)
+            if word in badWords:
+                wordTypes.append(1)
+            if word in averageWords:
+                wordTypes.append(2)
+            # wordTypes.append(tag)
             wordVecs.append(wordVec)
 
-    X_tsne = TSNE(n_components=2, perplexity=2, verbose=2).fit_transform([vec] + wordVecs)
+    X_tsne = TSNE(n_components=2, perplexity=2, verbose=2).fit_transform(wordVecs)
 
     fig, ax = plt.subplots()
-    ax.scatter(X_tsne[:, 0], X_tsne[:, 1], c=["silver"]+wordTypes)
+    ax.scatter(X_tsne[:, 0], X_tsne[:, 1], c=wordTypes)
 
-    for i, txt in enumerate(["DOC"] + words):
+    for i, txt in enumerate(words):
         ax.annotate(txt, (X_tsne[i, 0], X_tsne[i, 1]))
 
     plt.show()
@@ -279,8 +289,8 @@ def tnse_manual2():
 
 def tnse_most_frequent():
 
-    n = 20
-    docnum = 6
+    n = 50
+    docnum = 0
 
     pkl_file = open(docFile, 'rb')
     dataset = pickle.load(pkl_file)
@@ -309,10 +319,10 @@ def tnse_most_frequent():
     wordListAdverb = list(filter(lambda word: tags[nltk.pos_tag([word])[0][1]] == "pink", wordList))[-n:]
     wordListPersonalPronoun = list(filter(lambda word: tags[nltk.pos_tag([word])[0][1]] == "darkorange", wordList))[-n:]
     #wordList = wordListAdjective + wordListNoun
-    wordList = wordListNoun + wordListAdjective
+    wordList = wordListNoun
     print(wordList)
 
-    docModel = gensim.models.Doc2Vec.load("./tmp/doc87.model")
+    docModel = gensim.models.Doc2Vec.load("./tmp/doc89.model")
 
     vec = docModel.infer_vector(wordList)
 
@@ -334,7 +344,7 @@ def tnse_most_frequent():
 
     vecs = dataset["posVecs"][:docnum] + dataset["negVecs"][:docnum]
 
-    X_tsne = TSNE(n_components=2, perplexity=5, verbose=2).fit_transform(wordVecs + vecs)
+    X_tsne = TSNE(n_components=2, perplexity=2, verbose=2).fit_transform(wordVecs + vecs)
 
     fig, ax = plt.subplots()
     ax.scatter(X_tsne[:, 0], X_tsne[:, 1], c=wordTypes + ["grey"] * docnum + ["black"] * docnum)
@@ -431,10 +441,10 @@ def tnse_composition():
     plt.show()
 
 def heatmap():
-    docModel = gensim.models.Doc2Vec.load("./tmp/doc89.model")
+    docModel = gensim.models.Doc2Vec.load("./tmp/doc87.model")
     #vec1 = np.array([docModel.wv.get_vector("good")])
     #vec2 = np.array([docModel.infer_vector(["very", "good"])])
-    sentences = ["good", "bad", "the movie was good", "the movie was not good","the movie was bad", "the movie was not bad"]
+    sentences = ["amazing", "mediocre", "worst"]
     sentenceArrays = [sentence.split(" ") for sentence in sentences]
 
     sentenceVectors = []
@@ -494,7 +504,7 @@ def heatmap_sentence():
     loc = plticker.LinearLocator(len(wordVectors)+1)
     #loc = plticker.MultipleLocator(1) # this locator puts ticks at regular intervals
     ax.yaxis.set_major_locator(loc)
-    dx = 0/72.; dy = 30/72. 
+    dx = 0/72.; dy = 10/72. 
     offset = matplotlib.transforms.ScaledTranslation(dx, dy, fig.dpi_scale_trans)  
     for tick in ax.yaxis.get_major_ticks():
         print(tick)
@@ -508,14 +518,50 @@ def heatmap_sentence():
 
     plt.show()
 
+def countWordOccurance(words):
+    posTrainFiles = "./data/aclImdb/train/pos/*"
+    negTrainFiles = "./data/aclImdb/train/neg/*"
+    posTestFiles = "./data/aclImdb/test/pos/*"
+    negTestFiles = "./data/aclImdb/test/neg/*"
+    usupTrainFiles = "./data/aclImdb/train/unsup/*"
+
+    trainFilesPos = glob.glob(posTrainFiles)
+    trainFilesNeg = glob.glob(negTrainFiles)
+    trainFilesPos.extend(glob.glob(posTestFiles))
+    trainFilesNeg.extend(glob.glob(negTestFiles))
+
+    countPos = {word : 0 for word in words}
+    countNeg = {word : 0 for word in words}
+
+    for i, documentFile in enumerate(trainFilesPos):
+        with open(documentFile) as document:
+            line = document.readline()
+            tokens = gensim.utils.simple_preprocess(line)
+            for token in tokens:
+                if (token in words):
+                    countPos[token] += 1
+    for i, documentFile in enumerate(trainFilesNeg):
+        with open(documentFile) as document:
+            line = document.readline()
+            tokens = gensim.utils.simple_preprocess(line)
+            for token in tokens:
+                if (token in words):
+                    countNeg[token] += 1
+    print(countPos)
+    print(countNeg)
+
+#countWordOccurance(["good","interesting", "amazing", "fantastic",  "great", "better", "bad", "boring", "terrible",  "awful", 
+#"worst", "worse", "mediocre","average", "fine"])
+
 #documents_to_vector_dataset()
 #do_tsne2()
 #tnse_one_doc()
 #tnse_n_doc()
-tnse_manual()
+#tnse_manual()
 #tnse_most_frequent()
 #tnse_most_similar()
 
+heatmap()
 #heatmap_sentence()
 #tnse_composition()
 

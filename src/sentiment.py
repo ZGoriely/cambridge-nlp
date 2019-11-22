@@ -154,9 +154,12 @@ def permutationTest (trueSentiments, predictionsA, predictionsB, R):
 
         # Calculate new accuracy
         new_mean_difference = abs(calculateAccuracy(trueSentiments, newPredictionsA) -  calculateAccuracy(trueSentiments, newPredictionsB))
+        print(new_mean_difference)
         if (new_mean_difference >= original_mean_difference):
             s+=1
         
+    print("Mean differnece: ", original_mean_difference)
+    print("S: ", s)
     # Calculate p value
     p = (s+1)/(R+1)
     return p
@@ -353,7 +356,7 @@ def tuneParameters():
     ''' Experiment with different doc2Vec models by testing on the first fold and
     training on the rest'''
 
-    parameters_to_test = [6, 8, 10, 12]
+    parameters_to_test = [0]
 
     folds = roundRobinSplit(10)
 
@@ -384,9 +387,44 @@ def tuneParameters():
 
         print("Accuracy: ", accuracy)
 
+def test():
+    ''' Experiment with different doc2Vec models by testing on the first fold and
+    training on the rest'''
+
+    folds = roundRobinSplit(10)
+
+    predictions = {}
+
+    # Validation fold
+    validationFoldPOS = ["data/simone1.txt", "data/simone2.txt"]
+    validationFoldNEG = []
+
+    # Get training sets
+    trainingSetPOS = []
+    trainingSetNEG = []
+    for i in range(1, 10):
+        trainingSetPOS.extend(folds[i]["POS"])
+        trainingSetNEG.extend(folds[i]["NEG"])
+
+    # Generate true sentiments for test set
+    trueSentiments = {}
+    for file in validationFoldPOS: trueSentiments[file] = "POS"
+    for file in validationFoldNEG: trueSentiments[file] = "NEG"
+        
+    # Do doc2vec experiment for each parameter   
+
+    predictions = doc2VecExperiment(trainingSetPOS, trainingSetNEG, validationFoldPOS, validationFoldNEG)
+    print(len(predictions))
+
+    accuracy = calculateAccuracy(trueSentiments, predictions)
+
+    print("Accuracy: ", accuracy)
+
 #tuneParameters()
+
+test()
 
 #print(crossValidateBayes(roundRobinSplit(3)))
 
 #compareTwoSystems(roundRobinSplit(10), svmPresenceUnigrams, doc2VecExperiment, "SVM P Unigrams", "Doc2Vec")
-compareTwoSystemsWithPermutation(roundRobinSplit(10, True), svmFrequencyUnigrams, doc2VecExperiment, "SVM P UniBi", "Doc2Vec")
+#compareTwoSystemsWithPermutation(roundRobinSplit(10, True), svmFrequencyUnigrams, svmPresenceUnigrams, "SVM F Uni", "SVM P Uni")

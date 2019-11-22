@@ -10,7 +10,7 @@ posTestFiles = "./data/aclImdb/test/pos/*"
 negTestFiles = "./data/aclImdb/test/neg/*"
 usupTrainFiles = "./data/aclImdb/train/unsup/*"
 
-modelFile = "./tmp/doc2.model"
+modelFile = "./tmp/doc.model"
 
 def read_corpus(dataSet, tokens_only=False):
     for i in range(len(dataSet)):
@@ -26,43 +26,36 @@ def read_corpus(dataSet, tokens_only=False):
 
 train_corpus = None
 
-def prepareFiles():
-    trainFiles = glob.glob(posTrainFiles)
-    trainFiles.extend(glob.glob(negTrainFiles))
-    trainFiles.extend(glob.glob(posTestFiles))
-    trainFiles.extend(glob.glob(negTestFiles))
-    trainFiles.extend(glob.glob(usupTrainFiles))
-    #trainFiles.sort()
-    train_corpus = list(read_corpus(trainFiles))
+# trainFiles = glob.glob(posTrainFiles)
+# trainFiles.extend(glob.glob(negTrainFiles))
+# trainFiles.extend(glob.glob(posTestFiles))
+# trainFiles.extend(glob.glob(negTestFiles))
+# trainFiles.extend(glob.glob(usupTrainFiles))
+# #trainFiles.sort()
+# train_corpus = list(read_corpus(trainFiles))
 
 def createDocModel(parameter):
-    # Genreate training corpus
-    #trainFiles = glob.glob(posTrainFiles)
-    #trainFiles.extend(glob.glob(negTrainFiles))
-    #trainFiles.extend(glob.glob(posTestFiles))
-    #trainFiles.extend(glob.glob(negTestFiles))
-    #trainFiles.extend(glob.glob(usupTrainFiles))
-    #train_corpus = list(read_corpus(trainFiles))
-
     # Create the doc2vec model
     # Best so far, 87%: model = gensim.models.doc2vec.Doc2Vec(dm=0, vector_size=110, min_count=2, epochs=6, workers=8, hs=0, window=6)
-    #my_dm = 0
-    #my_vector_size = 125
-    #my_min_count = 20
-    #my_epochs = 5
-    #my_hs = 1
-    #my_window = 6
     my_dm = 0
-    my_vector_size = 125
-    my_min_count = 20
-    my_epochs = 5
+    my_vector_size = 120
+    my_min_count = 2
+    my_epochs = 10
     my_hs = 1
-    my_window = 6
+    my_window = 20
+    my_negative = 10
+    #my_dm = 0
+    #my_vector_size = 111
+    #my_min_count = 4
+    #my_epochs = 16
+    #my_hs = 1
+    #my_window = 46
+    #my_negative = 10
 
-    print("dm:", my_dm, "vector size:", my_vector_size, "min count:", my_min_count, "epochs:", my_epochs, "hs:", my_hs, "window:", my_window)
+    print("dm:", my_dm, "vector size:", my_vector_size, "min count:", my_min_count, "epochs:", my_epochs, "hs:", my_hs, "window:", my_window, "negative", my_negative)
 
     model = gensim.models.doc2vec.Doc2Vec(seed=0, dm=my_dm,
-        vector_size=my_vector_size, min_count=my_min_count, epochs=my_epochs, workers=1, hs=my_hs, window=my_window)
+        vector_size=my_vector_size, min_count=my_min_count, epochs=my_epochs, workers=1, hs=my_hs, window=my_window, negative=my_negative)
     model.build_vocab(train_corpus)
     model.train(train_corpus, total_examples=model.corpus_count, epochs=model.epochs)
 

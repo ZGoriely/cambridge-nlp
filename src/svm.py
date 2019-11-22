@@ -80,6 +80,8 @@ def predictDoc2Vec(model, testSet, docModel):
     for i in range(len(predictions)):
         results[testSet[i]] = "POS" if predictions[i] > 0 else "NEG"
 
+    print(results)
+
     return results
 
 def getDocumentVector(wordList, wordMap, unigrams=True, bigrams=False, presence=False):
