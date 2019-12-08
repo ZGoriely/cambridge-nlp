@@ -1,43 +1,43 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{}
 
-\bibitem{lau2016empirical}
-Jey~Han Lau and Timothy Baldwin.
+\bibitem[Lau and Baldwin, 2016]{lau2016empirical}
+Lau, J.~H. and Baldwin, T. (2016).
 \newblock An empirical evaluation of doc2vec with practical insights into
   document embedding generation.
-\newblock {\em arXiv preprint arXiv:1607.05368}, 2016.
+\newblock {\em arXiv preprint arXiv:1607.05368}.
 
-\bibitem{le2014distributed}
-Quoc Le and Tomas Mikolov.
+\bibitem[Le and Mikolov, 2014]{le2014distributed}
+Le, Q. and Mikolov, T. (2014).
 \newblock Distributed representations of sentences and documents.
 \newblock In {\em International conference on machine learning}, pages
-  1188--1196, 2014.
+  1188--1196.
 
-\bibitem{li2015visualizing}
-Jiwei Li, Xinlei Chen, Eduard Hovy, and Dan Jurafsky.
+\bibitem[Li et~al., 2015]{li2015visualizing}
+Li, J., Chen, X., Hovy, E., and Jurafsky, D. (2015).
 \newblock Visualizing and understanding neural models in nlp.
-\newblock {\em arXiv preprint arXiv:1506.01066}, 2015.
+\newblock {\em arXiv preprint arXiv:1506.01066}.
 
-\bibitem{maas-EtAl:2011:ACL-HLT2011}
-Andrew~L. Maas, Raymond~E. Daly, Peter~T. Pham, Dan Huang, Andrew~Y. Ng, and
-  Christopher Potts.
+\bibitem[Maas et~al., 2011]{maas-EtAl:2011:ACL-HLT2011}
+Maas, A.~L., Daly, R.~E., Pham, P.~T., Huang, D., Ng, A.~Y., and Potts, C.
+  (2011).
 \newblock Learning word vectors for sentiment analysis.
 \newblock In {\em Proceedings of the 49th Annual Meeting of the Association for
   Computational Linguistics: Human Language Technologies}, pages 142--150,
-  Portland, Oregon, USA, June 2011. Association for Computational Linguistics.
+  Portland, Oregon, USA. Association for Computational Linguistics.
 
-\bibitem{mikolov2013distributed}
-Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg~S Corrado, and Jeff Dean.
+\bibitem[Mikolov et~al., 2013]{mikolov2013distributed}
+Mikolov, T., Sutskever, I., Chen, K., Corrado, G.~S., and Dean, J. (2013).
 \newblock Distributed representations of words and phrases and their
   compositionality.
 \newblock In {\em Advances in neural information processing systems}, pages
-  3111--3119, 2013.
+  3111--3119.
 
-\bibitem{pang2002thumbs}
-Bo~Pang, Lillian Lee, and Shivakumar Vaithyanathan.
+\bibitem[Pang et~al., 2002]{pang2002thumbs}
+Pang, B., Lee, L., and Vaithyanathan, S. (2002).
 \newblock Thumbs up?: sentiment classification using machine learning
   techniques.
 \newblock In {\em Proceedings of the ACL-02 conference on Empirical methods in
   natural language processing-Volume 10}, pages 79--86. Association for
-  Computational Linguistics, 2002.
+  Computational Linguistics.
 
 \end{thebibliography}

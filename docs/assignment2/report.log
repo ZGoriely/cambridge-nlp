@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.10.11)  21 NOV 2019 20:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.10.11)  3 DEC 2019 22:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -402,22 +402,28 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 \c@blind@randommax=\count299
 \c@blind@pangramcount=\count300
 \c@blind@pangrammax=\count301
-)) (./report.aux)
+))
+(/usr/local/texlive/2019/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip53
+\bibsep=\skip54
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count302
+) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -457,16 +463,16 @@ File: fc-english.def 2016/01/12
 )
 (/usr/local/texlive/2019/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count302
+\scratchcounter=\count303
 \scratchdimen=\dimen157
 \scratchbox=\box74
-\nofMPsegments=\count303
-\nofMParguments=\count304
+\nofMPsegments=\count304
+\nofMParguments=\count305
 \everyMPshowfont=\toks22
-\MPscratchCnt=\count305
+\MPscratchCnt=\count306
 \MPscratchDim=\dimen158
-\MPnumerator=\count306
-\makeMPintoPDFobject=\count307
+\MPnumerator=\count307
+\makeMPintoPDFobject=\count308
 \everyMPtoPDFconversion=\toks23
 ) (/usr/local/texlive/2019/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -516,84 +522,80 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 33.
+(Font)              <14.4> on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 33.
+(Font)              <7> on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 35.
+(Font)              <12> on input line 37.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 35.
+(Font)              <8> on input line 37.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 35.
+(Font)              <6> on input line 37.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 35.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 68.
+(Font)              <5> on input line 37.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 129.
+
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 68.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 129.
 
-Underfull \hbox (badness 10000) in paragraph at lines 70--71
+Underfull \hbox (badness 10000) in paragraph at lines 131--132
 []\OT1/cmr/m/n/12 vectors in-ferred from a trained
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 78--79
-[]\OT1/cmr/m/n/12 Le and Mikolov ex-tended this idea to
+Underfull \hbox (badness 7851) in paragraph at lines 134--135
+[]\OT1/cmr/m/n/12 I im-ple-mented[] the SVM clas-si-fier us-ing
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 80--95
+Package multicol Warning: I moved some lines to the next page.
+(multicol)                Footnotes on page 1 might be wrong on input line 135.
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 80--95
-
- []
 
 [1
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<figs/nouns.png, id=17, 586.1097pt x 489.2679pt>
+<figs/nouns.png, id=18, 586.1097pt x 489.2679pt>
 File: figs/nouns.png Graphic file (type png)
 <use figs/nouns.png>
-Package pdftex.def Info: figs/nouns.png  used on input line 161.
+Package pdftex.def Info: figs/nouns.png  used on input line 171.
 (pdftex.def)             Requested size: 250.95612pt x 209.49268pt.
-<figs/sentiment.png, id=19, 492.8814pt x 369.2997pt>
+<figs/sentiment.png, id=20, 492.8814pt x 369.2997pt>
 File: figs/sentiment.png Graphic file (type png)
 <use figs/sentiment.png>
-Package pdftex.def Info: figs/sentiment.png  used on input line 167.
+Package pdftex.def Info: figs/sentiment.png  used on input line 177.
 (pdftex.def)             Requested size: 250.95612pt x 188.03041pt.
 
 
 Package multicol Warning: I moved some lines to the next page.
-(multicol)                Footnotes on page 2 might be wrong on input line 177.
+(multicol)                Footnotes on page 2 might be wrong on input line 186.
 
 
 [2]
-<figs/greatest.png, id=24, 676.80855pt x 407.6028pt>
+<figs/greatest.png, id=25, 676.80855pt x 407.6028pt>
 File: figs/greatest.png Graphic file (type png)
 <use figs/greatest.png>
-Package pdftex.def Info: figs/greatest.png  used on input line 209.
+Package pdftex.def Info: figs/greatest.png  used on input line 219.
 (pdftex.def)             Requested size: 250.95612pt x 151.13408pt.
-<figs/goodbad.png, id=25, 380.1402pt x 393.8715pt>
+<figs/goodbad.png, id=26, 380.1402pt x 393.8715pt>
 File: figs/goodbad.png Graphic file (type png)
 <use figs/goodbad.png>
-Package pdftex.def Info: figs/goodbad.png  used on input line 215.
+Package pdftex.def Info: figs/goodbad.png  used on input line 225.
 (pdftex.def)             Requested size: 250.95612pt x 260.0281pt.
- (./report.bbl [3 <./figs/nouns.png> <./figs/sentiment.png>]) [4 <./figs/greate
+ [3 <./figs/nouns.png> <./figs/sentiment.png>] (./report.bbl) [4 <./figs/greate
 st.png> <./figs/goodbad.png>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 13275 strings out of 492616
- 245367 string characters out of 6129480
+ 13617 strings out of 492616
+ 249640 string characters out of 6129480
  454521 words of memory out of 5000000
- 17096 multiletter control sequences out of 15000+600000
+ 17434 multiletter control sequences out of 15000+600000
  538069 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,63p,1006b,428s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,9n,63p,1006b,425s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2019/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2019/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2019/texmf-dist
@@ -610,7 +612,7 @@ c/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmti10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti12.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmtt12.pfb>
-Output written on report.pdf (4 pages, 442106 bytes).
+Output written on report.pdf (4 pages, 439579 bytes).
 PDF statistics:
  86 PDF objects out of 1000 (max. 8388607)
  56 compressed objects within 1 object stream

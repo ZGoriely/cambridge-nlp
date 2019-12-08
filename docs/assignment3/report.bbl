@@ -1,0 +1,90 @@
+\begin{thebibliography}{}
+
+\bibitem[Buttery and Copestake, 2019a]{lecture2}
+Buttery, P. and Copestake, A. (2019a).
+\newblock Natural language processing: Part ii overview of natural language
+  processing (l90): Acs, lecture 2: Finite-state techniques.
+
+\bibitem[Buttery and Copestake, 2019b]{lecture5}
+Buttery, P. and Copestake, A. (2019b).
+\newblock Natural language processing: Part ii overview of natural language
+  processing (l90): Acs, lecture 5: Dependencies.
+
+\bibitem[Chen and Manning, 2014]{chen2014fast}
+Chen, D. and Manning, C. (2014).
+\newblock A fast and accurate dependency parser using neural networks.
+\newblock In {\em Proceedings of the 2014 conference on empirical methods in
+  natural language processing (EMNLP)}, pages 740--750.
+
+\bibitem[Mikolov et~al., 2013]{mikolov2013distributed}
+Mikolov, T., Sutskever, I., Chen, K., Corrado, G.~S., and Dean, J. (2013).
+\newblock Distributed representations of words and phrases and their
+  compositionality.
+\newblock In {\em Advances in neural information processing systems}, pages
+  3111--3119.
+
+\bibitem[Miller, 1995]{miller1995wordnet}
+Miller, G.~A. (1995).
+\newblock Wordnet: a lexical database for english.
+\newblock {\em Communications of the ACM}, 38(11):39--41.
+
+\bibitem[Mostafazadeh et~al., 2017]{mostafazadeh2017lsdsem}
+Mostafazadeh, N., Roth, M., Louis, A., Chambers, N., and Allen, J. (2017).
+\newblock Lsdsem 2017 shared task: The story cloze test.
+\newblock In {\em Proceedings of the 2nd Workshop on Linking Models of Lexical,
+  Sentential and Discourse-level Semantics}, pages 46--51.
+
+\bibitem[Mueller, 2014]{mueller2014commonsense}
+Mueller, E.~T. (2014).
+\newblock {\em Commonsense reasoning: an event calculus based approach}.
+\newblock Morgan Kaufmann.
+
+\bibitem[Ostermann et~al., 2018]{ostermann2018semeval}
+Ostermann, S., Roth, M., Modi, A., Thater, S., and Pinkal, M. (2018).
+\newblock Semeval-2018 task 11: Machine comprehension using commonsense
+  knowledge.
+\newblock In {\em Proceedings of The 12th International Workshop on Semantic
+  Evaluation}, pages 747--757.
+
+\bibitem[Speer et~al., 2016]{speer2016conceptnet}
+Speer, R., Chin, J., and Havasi, C. (2016).
+\newblock Conceptnet 5.5: An open multilingual graph of general knowledge.
+
+\bibitem[Tandon et~al., 2014]{tandon2014webchild}
+Tandon, N., De~Melo, G., Suchanek, F., and Weikum, G. (2014).
+\newblock Webchild: Harvesting and organizing commonsense knowledge from the
+  web.
+\newblock In {\em Proceedings of the 7th ACM international conference on Web
+  search and data mining}, pages 523--532. ACM.
+
+\bibitem[Teufel and Copestake, 2019a]{lecture6}
+Teufel, S. and Copestake, A. (2019a).
+\newblock Natural language processing: Part ii overview of natural language
+  processing (l90): Acs, lecture 6: Compositional semantics.
+
+\bibitem[Teufel and Copestake, 2019b]{lecture7}
+Teufel, S. and Copestake, A. (2019b).
+\newblock Natural language processing: Part ii overview of natural language
+  processing (l90): Acs, lecture 7: Lexical semantics.
+
+\bibitem[Wang et~al., 2018]{wang2018yuanfudao}
+Wang, L., Sun, M., Zhao, W., Shen, K., and Liu, J. (2018).
+\newblock Yuanfudao at semeval-2018 task 11: Three-way attention and relational
+  knowledge for commonsense machine comprehension.
+\newblock {\em arXiv preprint arXiv:1803.00191}.
+
+\bibitem[Wanzare et~al., 2016]{wanzare2016descript}
+Wanzare, L.~D., Zarcone, A., Thater, S., and Pinkal, M. (2016).
+\newblock Descript: a crowdsourced corpus for the acquisition of high-quality
+  script knowledge.
+\newblock In {\em The International Conference on Language Resources and
+  Evaluation}.
+
+\bibitem[Xia et~al., 2019]{xia2019incorporating}
+Xia, J., Wu, C., and Yan, M. (2019).
+\newblock Incorporating relation knowledge into commonsense reading
+  comprehension with multi-task learning.
+\newblock In {\em Proceedings of the 28th ACM International Conference on
+  Information and Knowledge Management}, pages 2393--2396. ACM.
+
+\end{thebibliography}
